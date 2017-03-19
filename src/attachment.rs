@@ -246,10 +246,10 @@ impl AttachmentBuilder {
     }
 
     /// An optional flag as to whether to treat text as markdown
-    pub fn mrkdwn_in(self, field_names: Vec<String>) -> AttachmentBuilder {
+    pub fn mrkdwn_in(self, field_names: Vec<&str>) -> AttachmentBuilder {
         match self.inner {
             Ok(mut inner) => {
-                inner.mrkdwn_in = Some(field_names);
+                inner.mrkdwn_in = Some(field_names.iter().map(|s| s.to_string()).collect());
                 AttachmentBuilder { inner: Ok(inner) }
             }
             _ => self,

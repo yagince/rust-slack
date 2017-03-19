@@ -65,7 +65,7 @@ pub struct Attachment {
     pub ts: Option<SlackTime>,
     /// An optional flag as to whether to treat text as markdown
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub mrkdwn: Option<bool>,
+    pub mrkdwn_in: Option<Vec<String>>,
 }
 
 /// Fields are defined as an array, and hashes contained within it will
@@ -246,10 +246,10 @@ impl AttachmentBuilder {
     }
 
     /// An optional flag as to whether to treat text as markdown
-    pub fn mrkdwn(self, is_markdown: bool) -> AttachmentBuilder {
+    pub fn mrkdwn_in(self, field_names: Vec<String>) -> AttachmentBuilder {
         match self.inner {
             Ok(mut inner) => {
-                inner.mrkdwn = Some(is_markdown);
+                inner.mrkdwn_in = Some(field_names);
                 AttachmentBuilder { inner: Ok(inner) }
             }
             _ => self,

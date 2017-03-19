@@ -245,7 +245,8 @@ impl AttachmentBuilder {
         }
     }
 
-    pub fn markdown(self, is_markdown: bool) -> AttachmentBuilder {
+    /// An optional flag as to whether to treat text as markdown
+    pub fn mrkdwn(self, is_markdown: bool) -> AttachmentBuilder {
         match self.inner {
             Ok(mut inner) => {
                 inner.mrkdwn = Some(is_markdown);

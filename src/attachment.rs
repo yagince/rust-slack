@@ -63,6 +63,9 @@ pub struct Attachment {
     /// Optional timestamp to be displayed with the attachment
     #[serde(skip_serializing_if = "Option::is_none")]
     pub ts: Option<SlackTime>,
+    /// An optional flag as to whether to treat text as markdown
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub mrkdwn: Option<bool>,
 }
 
 /// Fields are defined as an array, and hashes contained within it will
@@ -236,6 +239,16 @@ impl AttachmentBuilder {
         match self.inner {
             Ok(mut inner) => {
                 inner.ts = Some(SlackTime::new(time));
+                AttachmentBuilder { inner: Ok(inner) }
+            }
+            _ => self,
+        }
+    }
+
+    pub fn markdown(self, is_markdown: bool) -> AttachmentBuilder {
+        match self.inner {
+            Ok(mut inner) => {
+                inner.mrkdwn = Some(is_markdown);
                 AttachmentBuilder { inner: Ok(inner) }
             }
             _ => self,
